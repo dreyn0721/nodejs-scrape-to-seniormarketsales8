@@ -131,10 +131,11 @@ const insert_data = [];
 		let url = "https://seniormarketsales8.destinationrx.com/PC/2021/Account/Login";
 		let urltocrawl = "https://seniormarketsales8.destinationrx.com/PC/2021/Account/Overview";
 
-		//let browser = await puppeteer.launch( { headless: false } );
-		let browser = await puppeteer.launch({
-		  executablePath: '/usr/bin/chromium-browser'
-		});
+		let browser = await puppeteer.launch( { headless: true } );
+		//let browser = await puppeteer.launch({
+		//  executablePath: '/usr/bin/chromium-browser'
+		//});
+
 		let page = await browser.newPage();
 
 		await page.setViewport({width: 1200, height: 720});

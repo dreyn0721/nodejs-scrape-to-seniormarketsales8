@@ -3,10 +3,10 @@ const mysql = require('mysql');
 
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "scrape_smsales"
+  host: "ls-ec144a8c10cc53619fa57000c587dc662caf8079.c4ikhf9dab2e.us-west-2.rds.amazonaws.com",
+  user: "dbmasteruser",
+  password: "+ivC~QyK6cPDmod>SqnxLqrKVgO}?7Md",
+  database: "dbmaster"
 });
 
 con.connect(function(err) {
@@ -114,8 +114,7 @@ const insert_data = [];
 	for (let [name, value] of Object.entries( users )) {
 		var email = users[name]['email'];
 		var password = users[name]['password'];
-
-		
+		var has_query = false;
 
 
 
@@ -237,29 +236,87 @@ const insert_data = [];
 			for (let row of return_data){
 
 
-				if( x > 0 ) var row_data = ',("'+name+'"';
-				else var row_data = '("'+name+'"';
+				if( x > 0 ) var row_data = ',("'+name+'"'; 
+				else var row_data = '("'+name+'"'; 
 
-				x = x+1;
+
+				//Check if already in query or have duplicate
+				if( x > 0 ) var row_data1 = ',("'+name+'"'; 
+				else var row_data1 = '("'+name+'"'; 
+
+				if( x > 0 ) var row_data2 = ',("'+name+'"'; 
+				else var row_data2 = '("'+name+'"'; 
+				//Check if already in query or have duplicate/////
+
+
+
+
 
 
 				for (let col of row){
+
 					row_data = row_data+', "'+col+'"';
+
+
+
+					//Check if already in query or have duplicate
+					row_data1 = row_data1+', "'+col+'"';
+					row_data2 = row_data2+', "'+col+'"';
+					//Check if already in query or have duplicate/////
+
+
 				}
+
+
 
 				row_data = row_data+")";
 
-				sales_query = sales_query+row_data;
+
+
+				//Check if already in query or have duplicate
+				row_data1 = row_data1+")";
+				row_data2 = row_data2+")";
+				//Check if already in query or have duplicate/////
+
+
+				//Check if already in query or have duplicate
+				if( (sales_query.toLowerCase()).indexOf(row_data1.toLowerCase()) !== "13" && (sales_query.toLowerCase()).indexOf(row_data2.toLowerCase()) !== "13" ){
+
+					//set if first array in query and add to query
+					x = x+1;
+					//
+
+					sales_query = sales_query+row_data;
+					has_query = true;
+
+				}
+
+				
+
+
+
+
+
+
+				
+				
 
 			}
 
 
 
-			//insert data to database
-			con.query(sales_query, function (err, result) {
-				if (err) throw err;
-				console.log( return_data.length+" total sales inserted for user: "+name+"." );
-			});
+			//if has query to query
+			if( has_query ){
+
+				//insert data to database
+				con.query(sales_query, function (err, result) {
+					if (err) throw err;
+					console.log( return_data.length+" total sales inserted for user: "+name+"." );
+				});
+			} else {
+				console.log( "0 total sales inserted for user: "+name+"." );
+			}
+			
 
 
 		}

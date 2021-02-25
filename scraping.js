@@ -133,13 +133,14 @@ const insert_data = [];
 
 		//let browser = await puppeteer.launch( { headless: true } );
 
-		//let browser = await puppeteer.launch({
-		//  executablePath: '/usr/bin/chromium-browser'
-		//});
-		const browser = await puppeteer.launch({
-		    headless:true,
-		    args: ["--no-sandbox"]
+		let browser = await puppeteer.launch({
+		 executablePath: '/home/ubuntu/nodejs-scrape-to-seniormarketsales8/node_modules/puppeteer/.local-chromium/linux-848005/chrome-linux'
 		});
+		
+		// const browser = await puppeteer.launch({
+		//     headless:true,
+		//     args: ["--no-sandbox"]
+		// });
 
 		let page = await browser.newPage();
 

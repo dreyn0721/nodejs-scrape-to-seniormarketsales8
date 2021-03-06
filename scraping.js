@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 const mysql = require('mysql');
 
 
-
+//local
 var con = mysql.createConnection({
   host: "ls-ec144a8c10cc53619fa57000c587dc662caf8079.c4ikhf9dab2e.us-west-2.rds.amazonaws.com",
   user: "dbmasteruser",
@@ -149,11 +149,9 @@ const insert_data = [];
 		let url = "https://seniormarketsales8.destinationrx.com/PC/2021/Account/Login";
 		let urltocrawl = "https://seniormarketsales8.destinationrx.com/PC/2021/Account/Overview";
 
+		//local
 		//let browser = await puppeteer.launch( { headless: false } );
-
-		// let browser = await puppeteer.launch({
-		//  executablePath: '/home/ubuntu/nodejs-scrape-to-seniormarketsales8/node_modules/puppeteer/.local-chromium/linux-848005/chrome-linux'
-		// });
+		
 
 		const browser = await puppeteer.launch({
 		    headless:true,
@@ -372,7 +370,9 @@ const insert_data = [];
 				}
 
 				//if has query to query
-				var datetime = new Date().toLocaleString();
+				var datetime = new Date().toLocaleString('en-US', {
+				  timeZone: 'US/Eastern'
+				});
 				if( has_query ){
 
 

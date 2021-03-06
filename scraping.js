@@ -267,7 +267,7 @@ const insert_data = [];
 
 
 			//insert_data[ name ] = return_data;
-			var sales_query = 'INSERT INTO sales3 ( user, carrier, state, plan_type, plan_effective_startdate, plan_effective_enddate ) VALUES ';
+			var sales_query = 'INSERT INTO sales3 ( user, carrier, state, plan_type, plan_effective_startdate, plan_effective_enddate, datetime ) VALUES ';
 
 
 

@@ -369,8 +369,15 @@ const insert_data = [];
 
 				}
 
-				//if has query to query
+				//EST
+			    offset = -5.0
+
+				clientDate = new Date();
+    			utc = clientDate.getTime() + (clientDate.getTimezoneOffset() * 60000);
 				var datetime = new Date( (utc + (3600000*offset)) );
+
+				
+				//if has query to query
 				if( has_query ){
 
 

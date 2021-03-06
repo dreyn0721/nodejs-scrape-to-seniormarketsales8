@@ -298,13 +298,6 @@ const insert_data = [];
 					else var row_data = '("'+name+'"'; 
 
 
-					//Check if already in query or have duplicate
-					if( x > 0 ) var row_data1 = ',("'+name+'"'; 
-					else var row_data1 = '("'+name+'"'; 
-
-					if( x > 0 ) var row_data2 = ',("'+name+'"'; 
-					else var row_data2 = '("'+name+'"'; 
-
 
 					var row_data3 = '"'+name+'"'; 
 					//Check if already in query or have duplicate/////
@@ -321,24 +314,11 @@ const insert_data = [];
 
 
 						//Check if already in query or have duplicate
-						row_data1 = row_data1+',"'+col+'"';
-						row_data2 = row_data2+',"'+col+'"';
 						row_data3 = row_data3+',"'+col+'"';
 						//Check if already in query or have duplicate/////
 
 
 					}
-
-
-
-					row_data = row_data+")";
-
-
-
-					//Check if already in query or have duplicate
-					row_data1 = row_data1+")";
-					row_data2 = row_data2+")";
-					//Check if already in query or have duplicate/////
 
 
 
@@ -349,7 +329,7 @@ const insert_data = [];
 					{  
 					   	x = x+1;
 
-					   	row_data = row_data+',"'+datenow+'"';
+					   	row_data = row_data+',"'+datenow+'")';
 
 						sales_query = sales_query+row_data; //add row to query line for bulk add
 						has_query = true;
@@ -359,26 +339,6 @@ const insert_data = [];
 
 
 
-
-					
-					
-					
-
-
-					/*
-					//Check if already in query or have duplicate
-					if( sales_query.includes(row_data1) == true || sales_query.includes(row_data2) == true || str_rec.includes(row_data3) == true ){ //this will check if already in database
-
-					} else {
-						//if in database
-
-						//set if first array in query and add to query
-						x = x+1;
-						//
-
-						sales_query = sales_query+row_data; //add row to query line for bulk add
-						has_query = true;
-					}*/
 
 
 				}

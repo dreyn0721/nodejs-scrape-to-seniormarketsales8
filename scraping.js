@@ -36,7 +36,7 @@ var con = mysql.createConnection({
 con.connect(function(err) {
   if (err) throw err;
 
-  	var truncate_tbl = "DROP TABLE Shippers";
+  	var truncate_tbl = "DROP TABLE sales3";
   	con.query(truncate_tbl, function (err, result) {
 		if (err) throw err;
 

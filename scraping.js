@@ -2,6 +2,17 @@ const puppeteer = require('puppeteer');
 const mysql = require('mysql');
 
 
+//EST
+offset = -5.0
+
+clientDate = new Date();
+utc = clientDate.getTime() + (clientDate.getTimezoneOffset() * 60000);
+const datetime = new Date( (utc + (3600000*offset)) );
+const datenow = datetime.getFullYear() + "/" + (datetime.getMonth() + 1) + "/" + datetime.getDate();
+
+
+
+
 //local
 var con = mysql.createConnection({
   host: "ls-ec144a8c10cc53619fa57000c587dc662caf8079.c4ikhf9dab2e.us-west-2.rds.amazonaws.com",
@@ -337,6 +348,8 @@ const insert_data = [];
 					{  
 					   	x = x+1;
 
+					   	row_data3 = ',"'+datenow+'"';
+
 						sales_query = sales_query+row_data; //add row to query line for bulk add
 						has_query = true;
 
@@ -369,14 +382,9 @@ const insert_data = [];
 
 				}
 
-				//EST
-			    offset = -5.0
-
-				clientDate = new Date();
-    			utc = clientDate.getTime() + (clientDate.getTimezoneOffset() * 60000);
-				var datetime = new Date( (utc + (3600000*offset)) );
-
 				
+
+
 				//if has query to query
 				if( has_query ){
 

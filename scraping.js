@@ -370,9 +370,7 @@ const insert_data = [];
 				}
 
 				//if has query to query
-				var datetime = new Date().toLocaleString('en-US', {
-				  timeZone: 'US/Eastern'
-				});
+				var datetime = new Date( (utc + (3600000*offset)) );
 				if( has_query ){
 
 

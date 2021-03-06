@@ -349,7 +349,7 @@ const insert_data = [];
 					{  
 					   	x = x+1;
 
-					   	row_data = ',"'+datenow+'"';
+					   	row_data = row_data+',"'+datenow+'"';
 
 						sales_query = sales_query+row_data; //add row to query line for bulk add
 						has_query = true;

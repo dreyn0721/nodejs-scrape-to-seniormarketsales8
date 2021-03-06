@@ -8,7 +8,7 @@ offset = -5.0
 clientDate = new Date();
 utc = clientDate.getTime() + (clientDate.getTimezoneOffset() * 60000);
 const datetime = new Date( (utc + (3600000*offset)) );
-const datenow = datetime.getFullYear() + "/" + (datetime.getMonth() + 1) + "/" + datetime.getDate();
+const datenow = datetime.getFullYear() + "-" + (datetime.getMonth() + 1) + "-" + datetime.getDate();
 
 
 

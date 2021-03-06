@@ -8,7 +8,8 @@ offset = -5.0
 clientDate = new Date();
 utc = clientDate.getTime() + (clientDate.getTimezoneOffset() * 60000);
 const datetime = new Date( (utc + (3600000*offset)) );
-const datenow = datetime.getFullYear() + "-" + (datetime.getMonth() + 1) + "-" + datetime.getDate();
+const datenow = datetime.getFullYear() + "-" + ( '0' + (datetime.getMonth() + 1) ).slice(-2) + "-" + ( '0' + (datetime.getDate() ) ).slice(-2);
+
 
 
 
@@ -348,7 +349,7 @@ const insert_data = [];
 					{  
 					   	x = x+1;
 
-					   	row_data3 = ',"'+datenow+'"';
+					   	row_data = ',"'+datenow+'"';
 
 						sales_query = sales_query+row_data; //add row to query line for bulk add
 						has_query = true;

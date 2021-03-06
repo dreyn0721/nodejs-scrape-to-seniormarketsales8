@@ -2,12 +2,24 @@ const puppeteer = require('puppeteer');
 const mysql = require('mysql');
 
 
+
 var con = mysql.createConnection({
   host: "ls-ec144a8c10cc53619fa57000c587dc662caf8079.c4ikhf9dab2e.us-west-2.rds.amazonaws.com",
   user: "dbmasteruser",
   password: "+ivC~QyK6cPDmod>SqnxLqrKVgO}?7Md",
   database: "dbmaster"
 });
+
+
+
+// var con = mysql.createConnection({
+//   host: "127.0.0.1",
+//   user: "root",
+//   password: "",
+//   database: "scrape_smsales"
+// });
+
+
 
 con.connect(function(err) {
   if (err) throw err;
@@ -17,6 +29,11 @@ con.connect(function(err) {
 const insert_data = [];
 (async () => {
 
+	
+
+
+
+	
 
 
 	var users = {
@@ -115,6 +132,7 @@ const insert_data = [];
 		var email = users[name]['email'];
 		var password = users[name]['password'];
 		var has_query = false;
+		var str_rec = new Array();
 
 
 
@@ -131,16 +149,12 @@ const insert_data = [];
 		let url = "https://seniormarketsales8.destinationrx.com/PC/2021/Account/Login";
 		let urltocrawl = "https://seniormarketsales8.destinationrx.com/PC/2021/Account/Overview";
 
-		//let browser = await puppeteer.launch( { headless: true } );
+		//let browser = await puppeteer.launch( { headless: false } );
 
 		let browser = await puppeteer.launch({
 		 executablePath: '/home/ubuntu/nodejs-scrape-to-seniormarketsales8/node_modules/puppeteer/.local-chromium/linux-848005/chrome-linux'
 		});
-		
-		// const browser = await puppeteer.launch({
-		//     headless:true,
-		//     args: ["--no-sandbox"]
-		// });
+
 
 		let page = await browser.newPage();
 
@@ -234,97 +248,163 @@ const insert_data = [];
 
 
 
-
 		if( return_data.length > 0 ){
 
 
 			//insert_data[ name ] = return_data;
-			var sales_query = 'INSERT INTO sales ( user, carrier, state, plan_type, plan_effective_startdate, plan_effective_enddate ) VALUES ';
-
-			var x = 0;
-			for (let row of return_data){
+			var sales_query = 'INSERT INTO sales3 ( user, carrier, state, plan_type, plan_effective_startdate, plan_effective_enddate ) VALUES ';
 
 
-				if( x > 0 ) var row_data = ',("'+name+'"'; 
-				else var row_data = '("'+name+'"'; 
 
+			//query for current data in database to filter ;ater
+			var select_records = 'SELECT * FROM sales3';
+			
+			var check_data = await con.query(select_records, function (err, result) {
+				if (err) throw err;
 
-				//Check if already in query or have duplicate
-				if( x > 0 ) var row_data1 = ',("'+name+'"'; 
-				else var row_data1 = '("'+name+'"'; 
+				for (let row of result){
 
-				if( x > 0 ) var row_data2 = ',("'+name+'"'; 
-				else var row_data2 = '("'+name+'"'; 
-				//Check if already in query or have duplicate/////
+					//str_rec = str_rec+',"'+row.id+'","'+row.user+'","'+row.carrier+'","'+row.state+'","'+row.plan_type+'","'+row.plan_effective_startdate+'","'+row.plan_effective_enddate+'"';
+					str_rec.push( '"'+row.user+'","'+row.carrier+'","'+row.state+'","'+row.plan_type+'","'+row.plan_effective_startdate+'","'+row.plan_effective_enddate+'"' );
+				}
 
 
 
 
 
 
-				for (let col of row){
 
-					row_data = row_data+', "'+col+'"';
+
+				var x = 0;
+				for (let row of return_data){
+
+
+					if( x > 0 ) var row_data = ',("'+name+'"'; 
+					else var row_data = '("'+name+'"'; 
+
+
+					//Check if already in query or have duplicate
+					if( x > 0 ) var row_data1 = ',("'+name+'"'; 
+					else var row_data1 = '("'+name+'"'; 
+
+					if( x > 0 ) var row_data2 = ',("'+name+'"'; 
+					else var row_data2 = '("'+name+'"'; 
+
+
+					var row_data3 = '"'+name+'"'; 
+					//Check if already in query or have duplicate/////
+
+
+
+
+
+
+					for (let col of row){
+
+						row_data = row_data+',"'+col+'"';
+
+
+
+						//Check if already in query or have duplicate
+						row_data1 = row_data1+',"'+col+'"';
+						row_data2 = row_data2+',"'+col+'"';
+						row_data3 = row_data3+',"'+col+'"';
+						//Check if already in query or have duplicate/////
+
+
+					}
+
+
+
+					row_data = row_data+")";
 
 
 
 					//Check if already in query or have duplicate
-					row_data1 = row_data1+', "'+col+'"';
-					row_data2 = row_data2+', "'+col+'"';
+					row_data1 = row_data1+")";
+					row_data2 = row_data2+")";
 					//Check if already in query or have duplicate/////
 
 
+
+
+
+
+					if(str_rec.indexOf( row_data3 ) == -1)
+					{  
+					   	x = x+1;
+
+						sales_query = sales_query+row_data; //add row to query line for bulk add
+						has_query = true;
+
+					}
+
+
+
+
+
+					
+					
+					
+
+
+					/*
+					//Check if already in query or have duplicate
+					if( sales_query.includes(row_data1) == true || sales_query.includes(row_data2) == true || str_rec.includes(row_data3) == true ){ //this will check if already in database
+
+					} else {
+						//if in database
+
+						//set if first array in query and add to query
+						x = x+1;
+						//
+
+						sales_query = sales_query+row_data; //add row to query line for bulk add
+						has_query = true;
+					}*/
+
+
+				}
+
+				//if has query to query
+				var datetime = new Date().toLocaleString();
+				if( has_query ){
+
+
+					//insert data to database
+					con.query(sales_query, function (err, result) {
+						if (err) throw err;
+
+						var result_count = JSON.parse(JSON.stringify(result.affectedRows));
+
+
+						if( result_count > 0 ){
+							console.log( result.affectedRows+" total sales inserted for user: "+name+". at Datetime: "+datetime );
+						} else {
+							console.log( "0 total sales inserted for user: "+name+". at Datetime: "+datetime );
+						}
+						
+					});
+				} else {
+					console.log( "0 total sales inserted for user: "+name+". at Datetime: "+datetime );
 				}
 
 
-
-				row_data = row_data+")";
-
-
-
-				//Check if already in query or have duplicate
-				row_data1 = row_data1+")";
-				row_data2 = row_data2+")";
-				//Check if already in query or have duplicate/////
-
-
-				//Check if already in query or have duplicate
-				if( (sales_query.toLowerCase()).indexOf(row_data1.toLowerCase()) !== "13" && (sales_query.toLowerCase()).indexOf(row_data2.toLowerCase()) !== "13" ){
-
-					//set if first array in query and add to query
-					x = x+1;
-					//
-
-					sales_query = sales_query+row_data;
-					has_query = true;
-
-				}
-
-				
+			});
 
 
 
 
 
 
-				
-				
-
-			}
 
 
 
-			//if has query to query
-			if( has_query ){
+			
 
-				//insert data to database
-				con.query(sales_query, function (err, result) {
-					if (err) throw err;
-					console.log( return_data.length+" total sales inserted for user: "+name+"." );
-				});
-			} else {
-				console.log( "0 total sales inserted for user: "+name+"." );
-			}
+
+
+			
 			
 
 

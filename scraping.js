@@ -151,8 +151,13 @@ const insert_data = [];
 
 		//let browser = await puppeteer.launch( { headless: false } );
 
-		let browser = await puppeteer.launch({
-		 executablePath: '/home/ubuntu/nodejs-scrape-to-seniormarketsales8/node_modules/puppeteer/.local-chromium/linux-848005/chrome-linux'
+		// let browser = await puppeteer.launch({
+		//  executablePath: '/home/ubuntu/nodejs-scrape-to-seniormarketsales8/node_modules/puppeteer/.local-chromium/linux-848005/chrome-linux'
+		// });
+
+		const browser = await puppeteer.launch({
+		    headless:true,
+		    args: ["--no-sandbox"]
 		});
 
 

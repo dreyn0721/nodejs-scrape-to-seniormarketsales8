@@ -61,13 +61,13 @@ const insert_data = [];
 		let urltocrawl = "https://seniormarketsales8.destinationrx.com/PC/2021/Account/Overview";
 
 		//local
-		//let browser = await puppeteer.launch( { headless: false } );
+		let browser = await puppeteer.launch( { headless: false } );
 		
 
-		const browser = await puppeteer.launch({
+		/*const browser = await puppeteer.launch({
 		    headless:true,
 		    args: ["--no-sandbox"]
-		});
+		});*/
 
 
 		let page = await browser.newPage();
@@ -161,6 +161,9 @@ const insert_data = [];
 		if( return_data.length > 0 ){
 
 
+			console.log( "." );
+
+
 			//insert_data[ name ] = return_data;
 			var sales_query = 'INSERT INTO sales4 ( user, carrier, state, plan_type, plan_effective_startdate, plan_effective_enddate, datetime ) VALUES ';
 
@@ -171,6 +174,9 @@ const insert_data = [];
 			
 			var check_data = await con.query(select_records, function (err, result) {
 				if (err) throw err;
+
+
+				console.log("..")
 
 				for (let row of result){
 
@@ -271,16 +277,6 @@ const insert_data = [];
 
 
 
-
-
-
-			var test_query = 'INSERT INTO test ( `test`, `x` ) VALUES ( "test", "y" ) ';
-			var test = await con.query(test_query, function (err, result) {
-				if (err) throw err;
-
-				console.log( ". at Datetime: "+datetime );
-				
-			});
 
 
 

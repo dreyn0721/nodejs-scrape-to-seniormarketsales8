@@ -15,6 +15,14 @@ const datenow = datetime.getFullYear() + "-" + ( '0' + (datetime.getMonth() + 1)
 
 
 //local
+// var con = mysql.createConnection({
+//   host: "127.0.0.1",
+//   user: "root",
+//   password: "",
+//   database: "scrape_smsales"
+// });
+
+
 var con = mysql.createConnection({
   host: "ls-ec144a8c10cc53619fa57000c587dc662caf8079.c4ikhf9dab2e.us-west-2.rds.amazonaws.com",
   user: "dbmasteruser",
@@ -22,14 +30,6 @@ var con = mysql.createConnection({
   database: "dbmaster"
 });
 
-
-
-// var con = mysql.createConnection({
-//   host: "127.0.0.1",
-//   user: "root",
-//   password: "",
-//   database: "scrape_smsales"
-// });
 
 
 const insert_data = [];
@@ -61,13 +61,13 @@ const insert_data = [];
 		let urltocrawl = "https://seniormarketsales8.destinationrx.com/PC/2021/Account/Overview";
 
 		//local
-		let browser = await puppeteer.launch( { headless: false } );
+		//let browser = await puppeteer.launch( { headless: false } );
 		
 
-		/*const browser = await puppeteer.launch({
+		const browser = await puppeteer.launch({
 		    headless:true,
 		    args: ["--no-sandbox"]
-		});*/
+		});
 
 
 		let page = await browser.newPage();

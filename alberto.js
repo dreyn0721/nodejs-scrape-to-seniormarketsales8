@@ -101,7 +101,7 @@ const insert_data = [];
 		var total_data = [];
 		var has_value = true;
 
-		while (has_value  == true) {
+		while (has_value  === true) {
 
 
 
@@ -283,6 +283,8 @@ const insert_data = [];
 			
 			console.log("...");
 
+		} else {
+			console.log( "No data found on the url." );
 		}
 		
 

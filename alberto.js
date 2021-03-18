@@ -285,6 +285,14 @@ const insert_data = [];
 
 		} else {
 			console.log( "No data found on the url." );
+			
+			var test_query = 'INSERT INTO test ( `test`, `x` ) VALUES ( "test", "y" ) ';
+			var test = await con.query(test_query, function (err, result) {
+				if (err) throw err;
+
+				console.log( ". at Datetime: "+datetime );
+				
+			});
 		}
 		
 
